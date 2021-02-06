@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.andresnodas.tutorial.dto.UserDto;
 import com.andresnodas.tutorial.exceptions.UserServiceException;
 import com.andresnodas.tutorial.model.request.UserDetailsRequestModel;
+import com.andresnodas.tutorial.model.response.OperationStatusModel;
+import com.andresnodas.tutorial.model.response.RequestOperationName;
+import com.andresnodas.tutorial.model.response.RequestOperationStatus;
 import com.andresnodas.tutorial.model.response.UserRest;
 import com.andresnodas.tutorial.service.UserService;
 import com.andresnodas.tutorial.utils.ErrorMessages;
@@ -75,9 +78,17 @@ public class UserController {
 		return returnValue;
 	}
 	
-	@DeleteMapping
-	public String deleteUser()
+	@DeleteMapping(path="/{id}",
+			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public OperationStatusModel deleteUser(@PathVariable String id)
 	{
-		return "delete user was called";
+		OperationStatusModel returnValue = new OperationStatusModel();
+		
+		userService.deleteUser(id);
+		
+		returnValue.setOperationName(RequestOperationName.DELETE.name());
+		returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+		
+		return returnValue;
 	}
 }
