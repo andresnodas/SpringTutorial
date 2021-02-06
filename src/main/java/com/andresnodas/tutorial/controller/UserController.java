@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.andresnodas.tutorial.dto.UserDto;
+import com.andresnodas.tutorial.exceptions.UserServiceException;
 import com.andresnodas.tutorial.model.request.UserDetailsRequestModel;
 import com.andresnodas.tutorial.model.response.UserRest;
 import com.andresnodas.tutorial.service.UserService;
+import com.andresnodas.tutorial.utils.ErrorMessages;
 
 @RestController
 @RequestMapping("users") //http://localhost:8080/users
@@ -39,8 +41,12 @@ public class UserController {
 	@PostMapping(
 			consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
 			produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails)
+	public UserRest createUser(@RequestBody UserDetailsRequestModel userDetails) throws UserServiceException
 	{
+//		Assert.hasLength(userDetails.getFirstName(), ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+		
+		if(userDetails.getFirstName().isEmpty()) throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+		
 		UserRest returnValue = new UserRest();
 		
 		UserDto userDto = new UserDto();
