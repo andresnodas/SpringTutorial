@@ -20,6 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.andresnodas.tutorial.SpringAppContext;
 import com.andresnodas.tutorial.dto.UserDto;
 import com.andresnodas.tutorial.model.request.UserLoginRequestModel;
+import com.andresnodas.tutorial.model.response.OperationStatusModel;
+import com.andresnodas.tutorial.model.response.RequestOperationName;
 import com.andresnodas.tutorial.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -37,18 +39,18 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 		
+		UserLoginRequestModel userLoginRequestModel = null;
+		
 		try {
-			
-			UserLoginRequestModel userLoginRequestModel = new ObjectMapper().readValue(request.getInputStream(), UserLoginRequestModel.class);
-			
-			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-					userLoginRequestModel.getEmail(), 
-					userLoginRequestModel.getPassword(), 
-					new ArrayList<>()));
-			
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+			userLoginRequestModel = new ObjectMapper().readValue(request.getInputStream(), UserLoginRequestModel.class);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+			
+		return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+				userLoginRequestModel.getEmail(), 
+				userLoginRequestModel.getPassword(), 
+				new ArrayList<>()));
 	}
 	
 	@Override
@@ -75,6 +77,22 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		out.print("{ token : " + token + "}");
 		out.flush();
 		
+	}
+	
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,AuthenticationException failed) throws IOException, ServletException {
+		PrintWriter out = response.getWriter();
+		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		
+		OperationStatusModel operationStatusModel = new OperationStatusModel();
+		operationStatusModel.setOperationName(RequestOperationName.LOGIN.name());
+		operationStatusModel.setOperationResult(failed.getMessage());
+		
+		out.print(new ObjectMapper().writeValueAsString(operationStatusModel));
+		out.flush();
 	}
 	
 }
