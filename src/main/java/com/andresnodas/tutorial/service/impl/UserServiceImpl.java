@@ -1,9 +1,14 @@
 package com.andresnodas.tutorial.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -58,6 +63,27 @@ public class UserServiceImpl implements UserService {
 		
 		UserDto returnValue = new UserDto();
 		BeanUtils.copyProperties(userEntity, returnValue);
+		
+		return returnValue;
+	}
+
+	@Override
+	public List<UserDto> getUsers(int page, int limit) {
+		
+		List<UserDto> returnValue = new ArrayList<>();
+		
+		Pageable pageableRequest = PageRequest.of(page, limit);
+		
+		Page<UserEntity> usersPage = userRepository.findAll(pageableRequest);
+		List<UserEntity> users = usersPage.getContent();
+		
+		returnValue.addAll(users.stream().map(user -> {
+			UserDto userDto = new UserDto();
+			
+			BeanUtils.copyProperties(user, userDto);
+			
+			return userDto;
+		}).collect(Collectors.toList()));
 		
 		return returnValue;
 	}
