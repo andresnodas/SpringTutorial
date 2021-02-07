@@ -1,11 +1,15 @@
 package com.andresnodas.tutorial.model.response;
 
+import java.util.List;
+
 public class UserRest {
 
 	private String userId;
 	private String firstName;
 	private String lastName;
 	private String email;
+	
+	private List<AddressRest> addresses;
 
 	public String getEmail() {
 		return email;
@@ -37,6 +41,14 @@ public class UserRest {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public List<AddressRest> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressRest> addresses) {
+		this.addresses = addresses;
 	}
 
 }

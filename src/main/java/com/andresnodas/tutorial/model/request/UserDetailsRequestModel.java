@@ -2,16 +2,14 @@ package com.andresnodas.tutorial.model.request;
 
 import java.util.List;
 
-import com.zaxxer.hikari.util.FastList;
-
 public class UserDetailsRequestModel {
 
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
-	
-	private List<UserDetailsRequestModelItem> items = new FastList<>(UserDetailsRequestModelItem.class);
+
+	private List<AddressRequestModel> addresses;
 
 	public String getFirstName() {
 		return firstName;
@@ -45,12 +43,12 @@ public class UserDetailsRequestModel {
 		this.password = password;
 	}
 
-	public List<UserDetailsRequestModelItem> getItems() {
-		return items;
+	public List<AddressRequestModel> getAddresses() {
+		return addresses;
 	}
 
-	public void setItems(List<UserDetailsRequestModelItem> items) {
-		this.items = items;
+	public void setAddresses(List<AddressRequestModel> addresses) {
+		this.addresses = addresses;
 	}
 
 }
