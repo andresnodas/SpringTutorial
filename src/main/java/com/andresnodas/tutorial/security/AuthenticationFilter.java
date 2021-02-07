@@ -17,7 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.andresnodas.tutorial.SpringApplicationContext;
+import com.andresnodas.tutorial.SpringAppContext;
 import com.andresnodas.tutorial.dto.UserDto;
 import com.andresnodas.tutorial.model.request.UserLoginRequestModel;
 import com.andresnodas.tutorial.service.UserService;
@@ -62,7 +62,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 				.signWith(SignatureAlgorithm.HS512, SecurityConstants.getTokenSecret())
 				.compact();
 		
-		UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+		UserService userService = (UserService) SpringAppContext.getBean("userServiceImpl");
 		UserDto userDto = userService.getUser(username);
 		
 		PrintWriter out = response.getWriter();

@@ -1,6 +1,6 @@
 package com.andresnodas.tutorial.security;
 
-import com.andresnodas.tutorial.SpringApplicationContext;
+import com.andresnodas.tutorial.SpringAppContext;
 
 public class SecurityConstants {
 
@@ -10,7 +10,7 @@ public class SecurityConstants {
 	public static final String SIGNUP_URL = "/users";
 	
 	public static String getTokenSecret() {
-		AppProperties appProperties = (AppProperties) SpringApplicationContext.getBean("appProperties");
+		AppProperties appProperties = (AppProperties) SpringAppContext.getBean("appProperties");
 		
 		return appProperties.getTokenSecret();
 	}

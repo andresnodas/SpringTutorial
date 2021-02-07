@@ -8,11 +8,15 @@
 		<version>2.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	
 	<groupId>com.andresnodas</groupId>
 	<artifactId>SpringTutorial</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	
 	<name>SpringTutorial</name>
 	<description>Tutorial for Spring Project</description>
+	
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -47,6 +51,12 @@
 		    <artifactId>jjwt</artifactId>
 		    <version>0.9.1</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -54,6 +64,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
