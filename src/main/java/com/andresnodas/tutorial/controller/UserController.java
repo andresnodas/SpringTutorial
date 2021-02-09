@@ -39,6 +39,7 @@ import com.andresnodas.tutorial.utils.ErrorMessages;
 
 @RestController
 @RequestMapping("/users") //http://localhost:8080/users
+//@CrossOrigin(origins = {"*", "http://localhost:8080"})
 public class UserController {
 
 	@Autowired
